@@ -54,4 +54,4 @@ python3 leo_main1d.py ../input_configs/dsb_sf2_leo_config_Q013a-6B.json # for ru
 Please also see the details in the json files in `input_configs/`. We include all the experiments setup we run in that folder.
 
 ## Datasets and Workloads
-`data/` is large and zipped.
+`data/` is large and zipped, and managed by git lfs.
