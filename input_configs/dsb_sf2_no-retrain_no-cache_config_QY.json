@@ -1,0 +1,136 @@
+{
+    "tables": [
+        "store_sales",
+        "catalog_sales"
+    ],
+    "static_tables": [
+        "promotion"
+    ],
+    "sel_cols": {
+        "store_sales": {
+            "ss_sales_price": {
+                "min": 0.00,
+                "max": 300.00
+            }
+        },
+        "catalog_sales": {
+            "cs_sales_price": {
+                "min": 0.00,
+                "max": 300.00
+            }
+        }
+    },
+    "jk_cols": {
+        "store_sales": [
+            "ss_item_sk",
+            "ss_promo_sk"
+        ],
+        "catalog_sales": [
+            "cs_item_sk",
+            "cs_promo_sk"
+        ],
+        "promotion": [
+            "p_promo_sk"
+        ]
+    },
+    "timestamp_cols": {
+        "store_sales": "ss_sold_date_sk",
+        "catalog_sales": "cs_sold_date_sk"
+    },
+    "join_to_watch": "ss.ss_item_sk=cs.cs_item_sk",
+    "sql": "select * from store_sales, catalog_sales, promotion as p1, promotion as p2 where ss_item_sk = cs_item_sk and ss_promo_sk = p1.p_promo_sk and cs_promo_sk = p2.p_promo_sk and ss_sales_price between {lb1} and {ub1} and cs_sales_price between {lb2} and {ub2};",
+    "pgtypes": {
+        "store_sales": {
+            "ss_sold_date_sk": "integer",
+            "ss_sold_time_sk": "integer",
+            "ss_item_sk": "integer",
+            "ss_customer_sk": "integer",
+            "ss_cdemo_sk": "integer",
+            "ss_hdemo_sk": "integer",
+            "ss_addr_sk": "integer",
+            "ss_store_sk": "integer",
+            "ss_promo_sk": "integer",
+            "ss_ticket_number": "integer",
+            "ss_quantity": "integer",
+            "ss_wholesale_cost": "real",
+            "ss_list_price": "real",
+            "ss_sales_price": "real",
+            "ss_ext_discount_amt": "real",
+            "ss_ext_sales_price": "real",
+            "ss_ext_wholesale_cost": "real",
+            "ss_ext_list_price": "real",
+            "ss_ext_tax": "real",
+            "ss_coupon_amt": "real",
+            "ss_net_paid": "real",
+            "ss_net_paid_inc_tax": "real",
+            "ss_net_profit": "real"
+        },
+        "catalog_sales": {
+            "cs_sold_date_sk": "integer",
+            "cs_sold_time_sk": "integer",
+            "cs_ship_date_sk": "integer",
+            "cs_bill_customer_sk": "integer",
+            "cs_bill_cdemo_sk": "integer",
+            "cs_bill_hdemo_sk": "integer",
+            "cs_bill_addr_sk": "integer",
+            "cs_ship_customer_sk": "integer",
+            "cs_ship_cdemo_sk": "integer",
+            "cs_ship_hdemo_sk": "integer",
+            "cs_ship_addr_sk": "integer",
+            "cs_call_center_sk": "integer",
+            "cs_catalog_page_sk": "integer",
+            "cs_ship_mode_sk": "integer",
+            "cs_warehouse_sk": "integer",
+            "cs_item_sk": "integer",
+            "cs_promo_sk": "integer",
+            "cs_order_number": "integer",
+            "cs_quantity": "integer",
+            "cs_wholesale_cost": "real",
+            "cs_list_price": "real",
+            "cs_sales_price": "real",
+            "cs_ext_discount_amt": "real",
+            "cs_ext_sales_price": "real",
+            "cs_ext_wholesale_cost": "real",
+            "cs_ext_list_price": "real",
+            "cs_ext_tax": "real",
+            "cs_coupon_amt": "real",
+            "cs_ext_ship_cost": "real",
+            "cs_net_paid": "real",
+            "cs_net_paid_inc_tax": "real",
+            "cs_net_paid_inc_ship": "real",
+            "cs_net_paid_inc_ship_tax": "real",
+            "cs_net_profit": "real"
+        },
+        "promotion": {
+            "p_promo_sk": "INTEGER",
+            "p_promo_id": "CHAR(16)",
+            "p_start_date_sk": "INTEGER",
+            "p_end_date_sk": "INTEGER",
+            "p_item_sk": "INTEGER",
+            "p_cost": "DECIMAL(15,2)",
+            "p_response_target": "INTEGER",
+            "p_promo_name": "VARCHAR(50)",
+            "p_channel_dmail": "CHAR(1)",
+            "p_channel_email": "CHAR(1)",
+            "p_channel_catalog": "CHAR(1)",
+            "p_channel_tv": "CHAR(1)",
+            "p_channel_radio": "CHAR(1)",
+            "p_channel_press": "CHAR(1)",
+            "p_channel_event": "CHAR(1)",
+            "p_channel_demo": "CHAR(1)",
+            "p_channel_details": "VARCHAR(100)",
+            "p_purpose": "VARCHAR(15)",
+            "p_discount_active": "CHAR(1)"
+        }
+    },
+    "debug": false,
+    "disable_table_with_sel_insertions_in_batch": true,
+    "table_filenames": {
+        "store_sales": "../data/dsb_sf2/store_sales_2450874.csv",
+        "catalog_sales": "../data/dsb_sf2/catalog_sales_2450874.csv",
+        "promotion": "../data/dsb_sf2/promotion.csv"
+    },
+    "log_filename": "../data/dsb_sf2/QY/QY_log.txt",
+    "trainingset_filename": "../data/dsb_sf2/QY/QY_trainingset.txt",
+    "output_prefix": "../result1d/dsb_sf2/QY/QY"
+}

@@ -1,0 +1,262 @@
+{
+    "tables": [
+        "store_sales",
+        "store_returns",
+        "web_sales"
+    ],
+    "static_tables": [
+        "date_dim",
+        "item",
+        "customer",
+        "customer_address",
+        "household_demographics"
+    ],
+    "sel_cols": {
+        "store_sales": {
+            "ss_sales_price / ss_list_price": {
+                "min": 0.00,
+                "max": 1.00
+            }
+        }
+    },
+    "jk_cols": {
+        "store_sales": [
+            "ss_ticket_number",
+            "ss_customer_sk",
+            "ss_item_sk"
+        ],
+        "store_returns": [
+            "sr_ticket_number",
+            "sr_item_sk",
+            "sr_returned_date_sk"
+        ],
+        "web_sales": [
+            "ws_bill_customer_sk",
+            "ws_item_sk",
+            "ws_sold_date_sk"
+        ],
+        "date_dim": [
+            "d_date_sk",
+            "d_date"
+        ],
+        "item": [
+            "i_item_sk"
+        ],
+        "customer": [
+            "c_customer_sk",
+            "c_current_addr_sk",
+            "c_current_hdemo_sk"
+        ],
+        "customer_address": [
+            "ca_address_sk"
+        ],
+        "household_demographics": [
+            "hd_demo_sk"
+        ]
+    },
+    "timestamp_cols": {
+        "store_sales": "ss_sold_date_sk",
+        "store_returns": "sr_returned_date_sk",
+        "web_sales": "ws_sold_date_sk"
+    },
+    "sql": "select * from store_sales, store_returns, web_sales, date_dim d1, date_dim d2, item, customer, customer_address, household_demographics where ss_ticket_number = sr_ticket_number and ss_customer_sk = ws_bill_customer_sk and ss_customer_sk = c_customer_sk and c_current_addr_sk = ca_address_sk and c_current_hdemo_sk = hd_demo_sk and ss_item_sk = sr_item_sk and sr_item_sk = ws_item_sk and i_item_sk = ss_item_sk and sr_returned_date_sk = d1.d_date_sk and ws_sold_date_sk = d2.d_date_sk and d2.d_date between d1.d_date AND (d1.d_date + interval '60 day') and ss_sales_price / ss_list_price between {lb1} and {ub1};",
+    "error_metric": "90th",
+    "init_thetas": {
+        "store_sales": "90th"
+    },
+    "pgtypes": {
+        "store_sales": {
+            "ss_sold_date_sk": "integer",
+            "ss_sold_time_sk": "integer",
+            "ss_item_sk": "integer",
+            "ss_customer_sk": "integer",
+            "ss_cdemo_sk": "integer",
+            "ss_hdemo_sk": "integer",
+            "ss_addr_sk": "integer",
+            "ss_store_sk": "integer",
+            "ss_promo_sk": "integer",
+            "ss_ticket_number": "integer",
+            "ss_quantity": "integer",
+            "ss_wholesale_cost": "real",
+            "ss_list_price": "real",
+            "ss_sales_price": "real",
+            "ss_ext_discount_amt": "real",
+            "ss_ext_sales_price": "real",
+            "ss_ext_wholesale_cost": "real",
+            "ss_ext_list_price": "real",
+            "ss_ext_tax": "real",
+            "ss_coupon_amt": "real",
+            "ss_net_paid": "real",
+            "ss_net_paid_inc_tax": "real",
+            "ss_net_profit": "real"
+        },
+        "store_returns": {
+            "sr_returned_date_sk": "integer",
+            "sr_return_time_sk": "integer",
+            "sr_item_sk": "integer",
+            "sr_customer_sk": "integer",
+            "sr_cdemo_sk": "integer",
+            "sr_hdemo_sk": "integer",
+            "sr_addr_sk": "integer",
+            "sr_store_sk": "integer",
+            "sr_reason_sk": "integer",
+            "sr_ticket_number": "integer",
+            "sr_return_quantity": "integer",
+            "sr_return_amt": "real",
+            "sr_return_tax": "real",
+            "sr_return_amt_inc_tax": "real",
+            "sr_fee": "real",
+            "sr_return_ship_cost": "real",
+            "sr_refunded_cash": "real",
+            "sr_reversed_charge": "real",
+            "sr_store_credit": "real",
+            "sr_net_loss": "real"
+        },
+        "web_sales": {
+            "ws_sold_date_sk": "INTEGER",
+            "ws_sold_time_sk": "INTEGER",
+            "ws_ship_date_sk": "INTEGER",
+            "ws_item_sk": "INTEGER",
+            "ws_bill_customer_sk": "INTEGER",
+            "ws_bill_cdemo_sk": "INTEGER",
+            "ws_bill_hdemo_sk": "INTEGER",
+            "ws_bill_addr_sk": "INTEGER",
+            "ws_ship_customer_sk": "INTEGER",
+            "ws_ship_cdemo_sk": "INTEGER",
+            "ws_ship_hdemo_sk": "INTEGER",
+            "ws_ship_addr_sk": "INTEGER",
+            "ws_web_page_sk": "INTEGER",
+            "ws_web_site_sk": "INTEGER",
+            "ws_ship_mode_sk": "INTEGER",
+            "ws_warehouse_sk": "INTEGER",
+            "ws_promo_sk": "INTEGER",
+            "ws_order_number": "BIGINT",
+            "ws_quantity": "INTEGER",
+            "ws_wholesale_cost": "DECIMAL(7,2)",
+            "ws_list_price": "DECIMAL(7,2)",
+            "ws_sales_price": "DECIMAL(7,2)",
+            "ws_ext_discount_amt": "DECIMAL(7,2)",
+            "ws_ext_sales_price": "DECIMAL(7,2)",
+            "ws_ext_wholesale_cost": "DECIMAL(7,2)",
+            "ws_ext_list_price": "DECIMAL(7,2)",
+            "ws_ext_tax": "DECIMAL(7,2)",
+            "ws_coupon_amt": "DECIMAL(7,2)",
+            "ws_ext_ship_cost": "DECIMAL(7,2)",
+            "ws_net_paid": "DECIMAL(7,2)",
+            "ws_net_paid_inc_tax": "DECIMAL(7,2)",
+            "ws_net_paid_inc_ship": "DECIMAL(7,2)",
+            "ws_net_paid_inc_ship_tax": "DECIMAL(7,2)",
+            "ws_net_profit": "DECIMAL(7,2)"
+        },
+        "date_dim": {
+            "d_date_sk": "INTEGER",
+            "d_date_id": "CHAR(16)",
+            "d_date": "DATE",
+            "d_month_seq": "INTEGER",
+            "d_week_seq": "INTEGER",
+            "d_quarter_seq": "INTEGER",
+            "d_year": "INTEGER",
+            "d_dow": "INTEGER",
+            "d_moy": "INTEGER",
+            "d_dom": "INTEGER",
+            "d_qoy": "INTEGER",
+            "d_fy_year": "INTEGER",
+            "d_fy_quarter_seq": "INTEGER",
+            "d_fy_week_seq": "INTEGER",
+            "d_day_name": "VARCHAR(9)",
+            "d_quarter_name": "VARCHAR(6)",
+            "d_holiday": "CHAR(1)",
+            "d_weekend": "CHAR(1)",
+            "d_following_holiday": "CHAR(1)",
+            "d_first_dom": "INTEGER",
+            "d_last_dom": "INTEGER",
+            "d_same_day_ly": "INTEGER",
+            "d_same_day_lq": "INTEGER",
+            "d_current_day": "CHAR(1)",
+            "d_current_week": "CHAR(1)",
+            "d_current_month": "CHAR(1)",
+            "d_current_quarter": "CHAR(1)",
+            "d_current_year": "CHAR(1)"
+        },
+        "item": {
+            "i_item_sk": "INTEGER",
+            "i_item_id": "CHAR(16)",
+            "i_rec_start_date": "DATE",
+            "i_rec_end_date": "DATE",
+            "i_item_desc": "VARCHAR(200)",
+            "i_current_price": "DECIMAL(7,2)",
+            "i_wholesale_cost": "DECIMAL(7,2)",
+            "i_brand_id": "INTEGER",
+            "i_brand": "VARCHAR(50)",
+            "i_class_id": "INTEGER",
+            "i_class": "VARCHAR(50)",
+            "i_category_id": "INTEGER",
+            "i_category": "VARCHAR(50)",
+            "i_manufact_id": "INTEGER",
+            "i_manufact": "VARCHAR(50)",
+            "i_size": "VARCHAR(20)",
+            "i_formulation": "VARCHAR(20)",
+            "i_color": "VARCHAR(20)",
+            "i_units": "VARCHAR(10)",
+            "i_container": "VARCHAR(10)",
+            "i_manager_id": "INTEGER",
+            "i_product_name": "VARCHAR(50)"
+        },
+        "customer": {
+            "c_customer_sk": "INTEGER",
+            "c_customer_id": "CHAR(16)",
+            "c_current_cdemo_sk": "INTEGER",
+            "c_current_hdemo_sk": "INTEGER",
+            "c_current_addr_sk": "INTEGER",
+            "c_first_shipto_date_sk": "INTEGER",
+            "c_first_sales_date_sk": "INTEGER",
+            "c_salutation": "VARCHAR(10)",
+            "c_first_name": "VARCHAR(20)",
+            "c_last_name": "VARCHAR(30)",
+            "c_preferred_cust_flag": "CHAR(1)",
+            "c_birth_day": "INTEGER",
+            "c_birth_month": "INTEGER",
+            "c_birth_year": "INTEGER",
+            "c_birth_country": "VARCHAR(20)",
+            "c_login": "VARCHAR(13)",
+            "c_email_address": "VARCHAR(50)",
+            "c_last_review_date": "INTEGER"
+        },
+        "customer_address": {
+            "ca_address_sk": "INTEGER",
+            "ca_address_id": "CHAR(16)",
+            "ca_street_number": "VARCHAR(10)",
+            "ca_street_name": "VARCHAR(60)",
+            "ca_street_type": "VARCHAR(15)",
+            "ca_suite_number": "VARCHAR(10)",
+            "ca_city": "VARCHAR(60)",
+            "ca_county": "VARCHAR(30)",
+            "ca_state": "CHAR(2)",
+            "ca_zip": "CHAR(10)",
+            "ca_country": "VARCHAR(20)",
+            "ca_gmt_offset": "DECIMAL(5,2)",
+            "ca_location_type": "VARCHAR(20)"
+        },
+        "household_demographics": {
+            "hd_demo_sk": "INTEGER",
+            "hd_income_band_sk": "INTEGER",
+            "hd_buy_potential": "VARCHAR(15)",
+            "hd_dep_count": "INTEGER",
+            "hd_vehicle_count": "INTEGER"
+        }
+    },
+    "debug": false,
+    "table_filenames": {
+        "store_sales": "../data/dsb_sf2/store_sales_2450874.csv",
+        "store_returns": "../data/dsb_sf2/store_returns_2450874.csv",
+        "web_sales": "../data/dsb_sf2/web_sales_2450874.csv",
+        "date_dim": "../data/dsb_sf2/date_dim.csv",
+        "item": "../data/dsb_sf2/item.csv",
+        "customer": "../data/dsb_sf2/customer.csv",
+        "customer_address": "../data/dsb_sf2/customer_address.csv",
+        "household_demographics": "../data/dsb_sf2/household_demographics.csv"
+    },
+    "log_filename": "../data/dsb_sf2/Q101-6B/Q101-6B_log.txt",
+    "trainingset_filename": "../data/dsb_sf2/Q101-6B/Q101-6B_trainingset.txt",
+    "output_prefix": "../result1d/dsb_sf2/Q101-6B/Q101-6B"
+}

@@ -1,0 +1,63 @@
+{
+    "tables": [
+        "store_sales"
+    ],
+    "static_tables": [],
+    "sel_cols": {
+        "store_sales": {
+            "ss_customer_sk": {
+                "min": 2,
+                "max": 143999
+            }
+        }
+    },
+    "jk_cols": {
+        "store_sales": []
+    },
+    "timestamp_cols": {
+        "store_sales": "ss_sold_date_sk"
+    },
+    "sql": "select * from store_sales where ss_customer_sk between {lb1} and {ub1};",
+    "triggers": [],
+    "size_budget": 30,
+    "execution_time_lb": 0.03,
+    "planning_time_ub": "10%",
+    "plancost_check_ratio": 1.1,
+    "overlap_ratio_lb": 0.8,
+    "pgtypes": {
+        "store_sales": {
+            "ss_sold_date_sk": "integer",
+            "ss_sold_time_sk": "integer",
+            "ss_item_sk": "integer",
+            "ss_customer_sk": "integer",
+            "ss_cdemo_sk": "integer",
+            "ss_hdemo_sk": "integer",
+            "ss_addr_sk": "integer",
+            "ss_store_sk": "integer",
+            "ss_promo_sk": "integer",
+            "ss_ticket_number": "integer",
+            "ss_quantity": "integer",
+            "ss_wholesale_cost": "real",
+            "ss_list_price": "real",
+            "ss_sales_price": "real",
+            "ss_ext_discount_amt": "real",
+            "ss_ext_sales_price": "real",
+            "ss_ext_wholesale_cost": "real",
+            "ss_ext_list_price": "real",
+            "ss_ext_tax": "real",
+            "ss_coupon_amt": "real",
+            "ss_net_paid": "real",
+            "ss_net_paid_inc_tax": "real",
+            "ss_net_profit": "real"
+        }
+    },
+    "enable_lazy_tuple_updates": false,
+    "enable_correct_the_joins": false,
+    "debug": false,
+    "table_filenames": {
+        "store_sales": "../data/dsb_sf2/store_sales_2450874.csv"
+    },
+    "log_filename": "../data/dsb_sf2/PQ001/PQ001_log.txt",
+    "trainingset_filename": "../data/dsb_sf2/PQ001/PQ001_trainingset.txt",
+    "output_prefix": "../result1d/dsb_sf2/PQ001/PQ001"
+}

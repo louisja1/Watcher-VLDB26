@@ -1,0 +1,202 @@
+{
+    "tables": [
+        "catalog_sales",
+        "inventory"
+    ],
+    "static_tables": [
+        "warehouse",
+        "item",
+        "customer_demographics",
+        "household_demographics",
+        "date_dim"
+    ],
+    "sel_cols": {
+        "catalog_sales": {
+            "cs_wholesale_cost": {
+                "min": 1.00,
+                "max": 100.00
+            }
+        }
+    },
+    "jk_cols": {
+        "catalog_sales": [
+            "cs_item_sk",
+            "cs_bill_cdemo_sk",
+            "cs_bill_hdemo_sk",
+            "cs_sold_date_sk",
+            "cs_ship_date_sk",
+            "cs_quantity"
+        ],
+        "inventory": [
+            "inv_item_sk",
+            "inv_warehouse_sk",
+            "inv_date_sk",
+            "inv_quantity_on_hand"
+        ],
+        "warehouse": [
+            "w_warehouse_sk"
+        ],
+        "item": [
+            "i_item_sk"
+        ],
+        "customer_demographics": [
+            "cd_demo_sk"
+        ],
+        "household_demographics": [
+            "hd_demo_sk"
+        ],
+        "date_dim": [
+            "d_date_sk",
+            "d_date",
+            "d_week_seq"
+        ]
+    },
+    "timestamp_cols": {
+        "catalog_sales": "cs_sold_date_sk",
+        "inventory": "inv_date_sk"
+    },
+    "sql": "select * from catalog_sales, inventory, warehouse, item, customer_demographics, household_demographics, date_dim d1, date_dim d2, date_dim d3 where cs_item_sk = inv_item_sk and w_warehouse_sk = inv_warehouse_sk and i_item_sk = cs_item_sk and cs_bill_cdemo_sk = cd_demo_sk and cs_bill_hdemo_sk = hd_demo_sk and cs_sold_date_sk = d1.d_date_sk and inv_date_sk = d2.d_date_sk and cs_ship_date_sk = d3.d_date_sk and d3.d_date > d1.d_date + interval '3 day' and d1.d_week_seq = d2.d_week_seq and inv_quantity_on_hand < cs_quantity and cs_wholesale_cost BETWEEN {lb1} AND {ub1};",
+    "pgtypes": {
+        "catalog_sales": {
+            "cs_sold_date_sk": "integer",
+            "cs_sold_time_sk": "integer",
+            "cs_ship_date_sk": "integer",
+            "cs_bill_customer_sk": "integer",
+            "cs_bill_cdemo_sk": "integer",
+            "cs_bill_hdemo_sk": "integer",
+            "cs_bill_addr_sk": "integer",
+            "cs_ship_customer_sk": "integer",
+            "cs_ship_cdemo_sk": "integer",
+            "cs_ship_hdemo_sk": "integer",
+            "cs_ship_addr_sk": "integer",
+            "cs_call_center_sk": "integer",
+            "cs_catalog_page_sk": "integer",
+            "cs_ship_mode_sk": "integer",
+            "cs_warehouse_sk": "integer",
+            "cs_item_sk": "integer",
+            "cs_promo_sk": "integer",
+            "cs_order_number": "integer",
+            "cs_quantity": "integer",
+            "cs_wholesale_cost": "real",
+            "cs_list_price  ": "real",
+            "cs_sales_price ": "real",
+            "cs_ext_discount_amt": "real",
+            "cs_ext_sales_price": "real",
+            "cs_ext_wholesale_cost": "real",
+            "cs_ext_list_price": "real",
+            "cs_ext_tax": "real",
+            "cs_coupon_amt": "real",
+            "cs_ext_ship_cost": "real",
+            "cs_net_paid": "real",
+            "cs_net_paid_inc_tax": "real",
+            "cs_net_paid_inc_ship": "real",
+            "cs_net_paid_inc_ship_tax": "real",
+            "cs_net_profit": "real"
+        },
+        "inventory": {
+            "inv_date_sk": "INTEGER",
+            "inv_item_sk": "INTEGER",
+            "inv_warehouse_sk": "INTEGER",
+            "inv_quantity_on_hand": "INTEGER"
+        },
+        "warehouse": {
+            "w_warehouse_sk": "INTEGER",
+            "w_warehouse_id": "CHAR(16)",
+            "w_warehouse_name": "VARCHAR(20)",
+            "w_warehouse_sq_ft": "INTEGER",
+            "w_street_number": "VARCHAR(10)",
+            "w_street_name": "VARCHAR(60)",
+            "w_street_type": "VARCHAR(15)",
+            "w_suite_number": "VARCHAR(10)",
+            "w_city": "VARCHAR(60)",
+            "w_county": "VARCHAR(30)",
+            "w_state": "CHAR(2)",
+            "w_zip": "CHAR(10)",
+            "w_country": "VARCHAR(20)",
+            "w_gmt_offset": "DECIMAL(5,2)"
+        },
+        "item": {
+            "i_item_sk": "INTEGER",
+            "i_item_id": "CHAR(16)",
+            "i_rec_start_date": "DATE",
+            "i_rec_end_date": "DATE",
+            "i_item_desc": "VARCHAR(200)",
+            "i_current_price": "DECIMAL(7,2)",
+            "i_wholesale_cost": "DECIMAL(7,2)",
+            "i_brand_id": "INTEGER",
+            "i_brand": "VARCHAR(50)",
+            "i_class_id": "INTEGER",
+            "i_class": "VARCHAR(50)",
+            "i_category_id": "INTEGER",
+            "i_category": "VARCHAR(50)",
+            "i_manufact_id": "INTEGER",
+            "i_manufact": "VARCHAR(50)",
+            "i_size": "VARCHAR(20)",
+            "i_formulation": "VARCHAR(20)",
+            "i_color": "VARCHAR(20)",
+            "i_units": "VARCHAR(10)",
+            "i_container": "VARCHAR(10)",
+            "i_manager_id": "INTEGER",
+            "i_product_name": "VARCHAR(50)"
+        },
+        "customer_demographics": {
+            "cd_demo_sk": "INTEGER",
+            "cd_gender": "CHAR(1)",
+            "cd_marital_status": "CHAR(1)",
+            "cd_education_status": "VARCHAR(20)",
+            "cd_purchase_estimate": "INTEGER",
+            "cd_credit_rating": "VARCHAR(10)",
+            "cd_dep_count": "INTEGER",
+            "cd_dep_employed_count": "INTEGER",
+            "cd_dep_college_count": "INTEGER"
+        },
+        "household_demographics": {
+            "hd_demo_sk": "INTEGER",
+            "hd_income_band_sk": "INTEGER",
+            "hd_buy_potential": "VARCHAR(15)",
+            "hd_dep_count": "INTEGER",
+            "hd_vehicle_count": "INTEGER"
+        },
+        "date_dim": {
+            "d_date_sk": "INTEGER",
+            "d_date_id": "CHAR(16)",
+            "d_date": "DATE",
+            "d_month_seq": "INTEGER",
+            "d_week_seq": "INTEGER",
+            "d_quarter_seq": "INTEGER",
+            "d_year": "INTEGER",
+            "d_dow": "INTEGER",
+            "d_moy": "INTEGER",
+            "d_dom": "INTEGER",
+            "d_qoy": "INTEGER",
+            "d_fy_year": "INTEGER",
+            "d_fy_quarter_seq": "INTEGER",
+            "d_fy_week_seq": "INTEGER",
+            "d_day_name": "VARCHAR(9)",
+            "d_quarter_name": "VARCHAR(6)",
+            "d_holiday": "CHAR(1)",
+            "d_weekend": "CHAR(1)",
+            "d_following_holiday": "CHAR(1)",
+            "d_first_dom": "INTEGER",
+            "d_last_dom": "INTEGER",
+            "d_same_day_ly": "INTEGER",
+            "d_same_day_lq": "INTEGER",
+            "d_current_day": "CHAR(1)",
+            "d_current_week": "CHAR(1)",
+            "d_current_month": "CHAR(1)",
+            "d_current_quarter": "CHAR(1)",
+            "d_current_year": "CHAR(1)"
+        }
+    },
+    "debug": false,
+    "table_filenames": {
+        "catalog_sales": "../data/dsb_sf2/catalog_sales_2450874.csv",
+        "inventory": "../data/dsb_sf2/inventory_2450874.csv",
+        "warehouse": "../data/dsb_sf2/warehouse.csv",
+        "item": "../data/dsb_sf2/item.csv",
+        "customer_demographics": "../data/dsb_sf2/customer_demographics.csv",
+        "household_demographics": "../data/dsb_sf2/household_demographics.csv",
+        "date_dim": "../data/dsb_sf2/date_dim.csv"
+    },
+    "trainingset_filename": "../data/dsb_sf2/Q072/Q072_old_trainingset.txt"
+}
